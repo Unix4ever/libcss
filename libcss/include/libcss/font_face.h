@@ -69,6 +69,12 @@ css_font_face_location_type css_font_face_src_location_type(
 		const css_font_face_src *src);
 css_font_face_format css_font_face_src_format(const css_font_face_src *src);
 
+css_error css_font_face_get_range(const css_font_face *font_face,
+		uint32_t index, const css_unicode_range **range);
+
+css_error css_font_face_count_ranges(const css_font_face *font_face,
+		uint32_t *count);
+
 uint8_t css_font_face_font_style(const css_font_face *font_face);
 uint8_t css_font_face_font_weight(const css_font_face *font_face);
 

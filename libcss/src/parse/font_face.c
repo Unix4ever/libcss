@@ -359,6 +359,95 @@ static css_error font_face_parse_font_weight(css_language *c,
 	return error;
 }
 
+static css_error font_face_parse_unicode_range(css_language *c,
+		const parserutils_vector *vector, int *ctx,
+		css_font_face *font_face)
+{
+	int orig_ctx = *ctx;
+	css_error error = CSS_OK;
+	const css_token *token;
+	enum css_font_weight_e weight = 0;
+	bool match;
+
+	/* NUMBER(U+N-M), */
+
+	token = parserutils_vector_iterate(vector, ctx);
+	if (token == NULL || (token->type != CSS_TOKEN_UNICODE_RANGE &&
+				token->type != CSS_TOKEN_NUMBER)) {
+		*ctx = orig_ctx;
+		return CSS_INVALID;
+	}
+
+	css_unicode_range *ranges = NULL, *new_ranges = NULL;
+	uint32_t n_ranges = 0;
+
+	do {
+
+		consumeWhitespace(vector, ctx);
+
+		if(tokenIsChar(token, ','))
+			token = parserutils_vector_iterate(vector, ctx);
+
+		if(token->type != CSS_TOKEN_UNICODE_RANGE) {
+			error = CSS_BADPARM;
+			goto cleanup;
+		}
+		new_ranges = realloc(ranges,
+				(n_ranges + 1) * sizeof(css_font_face_src));
+		if (new_ranges == NULL) {
+			error = CSS_NOMEM;
+			goto cleanup;
+		}
+
+		ranges = new_ranges;
+
+		const char* data = lwc_string_data(token->idata);
+
+		uint8_t i = 0;
+		uint8_t buffer[10];
+		uint8_t offset = 0;
+		uint8_t character;
+		uint8_t position = 0;
+		do {
+			character = data[position++];
+
+			if(isHex(character)) {
+				buffer[offset++] = charToHex(character);
+			}
+
+			if(token == NULL || character == '-' || character == '\0') {
+				ranges[n_ranges][i] = 0;
+				for(int j = 0; j < offset; ++j) {
+					ranges[n_ranges][i] |= buffer[j] << (offset - j - 1) * sizeof(uint32_t);
+				}
+				offset = 0;
+
+				if(++i > 2) {
+					error = CSS_BADPARM;
+					goto cleanup;
+				}
+			}
+		} while(character != '\0');
+
+		++n_ranges;
+
+		consumeWhitespace(vector, ctx);
+		token = parserutils_vector_iterate(vector, ctx);
+	} while (token != NULL && tokenIsChar(token, ','));
+
+	error = css__font_face_set_ranges(font_face, ranges, n_ranges);
+
+cleanup:
+	if (error != CSS_OK) {
+		*ctx = orig_ctx;
+		if (ranges != NULL)
+			free(ranges);
+	}
+
+	return error;
+}
+
+
 /**
  * Parse a descriptor in an @font-face rule
  *
@@ -404,7 +493,12 @@ css_error css__parse_font_descriptor(css_language *c,
 			c->strings[FONT_WEIGHT], &match) == lwc_error_ok &&
 			match) {
 		return font_face_parse_font_weight(c, vector, ctx, font_face);
-	}
+	} else if (lwc_string_caseless_isequal(descriptor->idata,
+      c->strings[UNICODE_RANGE], &match) == lwc_error_ok &&
+      match) {
+    return font_face_parse_unicode_range(c, vector, ctx, font_face);
+  }
+
 
 	return CSS_INVALID;
 }

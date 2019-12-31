@@ -217,6 +217,7 @@ const stringmap_entry stringmap[LAST_KNOWN] = {
 	{ "text-transform", SLEN("text-transform") },
 	{ "top", SLEN("top") },
 	{ "unicode-bidi", SLEN("unicode-bidi") },
+	{ "unicode-range", SLEN("unicode-range") },
 	{ "vertical-align", SLEN("vertical-align") },
 	{ "visibility", SLEN("visibility") },
 	{ "voice-family", SLEN("voice-family") },

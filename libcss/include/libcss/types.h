@@ -272,6 +272,8 @@ typedef struct css_font_face css_font_face;
 
 typedef struct css_font_face_src css_font_face_src;
 
+typedef uint32_t css_unicode_range[2];
+
 #ifdef __cplusplus
 }
 #endif

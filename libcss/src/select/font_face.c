@@ -28,6 +28,8 @@ static void font_faces_srcs_destroy(css_font_face *font_face)
 static const css_font_face default_font_face = {
 	NULL,
 	NULL,
+	NULL,
+	0,
 	0,
 	{ (CSS_FONT_WEIGHT_NORMAL << 2) | CSS_FONT_STYLE_NORMAL }
 };
@@ -74,6 +76,9 @@ css_error css__font_face_destroy(css_font_face *font_face)
 
 	if (font_face->srcs != NULL)
 		font_faces_srcs_destroy(font_face);
+
+	if (font_face->ranges != NULL)
+		free(font_face->ranges);
 
 	free(font_face);
 
@@ -249,4 +254,59 @@ css_error css__font_face_set_srcs(css_font_face *font_face,
 	return CSS_OK;
 }
 
+/**
+ * Set a font-faces array of unicode ranges.
+ *
+ * \param font_face  The font-face
+ * \param ranges	   The array of css_unicode_range
+ * \param n_ranges     The count of css_unicode_range in the array
+ * \return CSS_OK
+ */
+css_error css__font_face_set_ranges(css_font_face *font_face,
+		css_unicode_range *ranges, uint32_t n_ranges)
+{
+	if (font_face->ranges != NULL) {
+		font_face->ranges = NULL;
+	}
 
+	font_face->ranges = ranges;
+	font_face->n_ranges = n_ranges;
+
+	return CSS_OK;
+}
+
+/**
+ * Get font range at index
+ *
+ * \param font_face  The font-face
+ * \param index      Unicode range index to get
+ * \param range      Pointer to css_unicode_range to receive result
+ */
+css_error css_font_face_get_range(const css_font_face *font_face,
+		uint32_t index, const css_unicode_range **range)
+{
+	if (font_face == NULL || range == NULL || index >= font_face->n_ranges)
+		return CSS_BADPARM;
+
+	*range = &(font_face->ranges[index]);
+
+	return CSS_OK;
+}
+
+/**
+ * Get the number of unicode ranges for a font-face
+ *
+ * \param font_face  The font-face
+ * \param count      Pointer to location to receive result
+ * \return CSS_OK on success,
+ *         CSS_BADPARM on bad parameters.
+ */
+css_error css_font_face_count_ranges(const css_font_face *font_face,
+		uint32_t *count)
+{
+	if (font_face == NULL || count == NULL)
+		return CSS_BADPARM;
+
+	*count = font_face->n_ranges;
+	return CSS_OK;
+}
