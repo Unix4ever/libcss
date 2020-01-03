@@ -494,10 +494,10 @@ css_error css__parse_font_descriptor(css_language *c,
 			match) {
 		return font_face_parse_font_weight(c, vector, ctx, font_face);
 	} else if (lwc_string_caseless_isequal(descriptor->idata,
-      c->strings[UNICODE_RANGE], &match) == lwc_error_ok &&
-      match) {
-    return font_face_parse_unicode_range(c, vector, ctx, font_face);
-  }
+			c->strings[UNICODE_RANGE], &match) == lwc_error_ok &&
+			match) {
+		return font_face_parse_unicode_range(c, vector, ctx, font_face);
+	}
 
 
 	return CSS_INVALID;
