@@ -474,6 +474,22 @@ uint8_t css_computed_order(
 		const css_computed_style *style,
 		int32_t *order);
 
+uint8_t css_computed_border_radius_top_left(
+		const css_computed_style *style,
+		css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_border_radius_top_right(
+		const css_computed_style *style,
+		css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_border_radius_bottom_right(
+		const css_computed_style *style,
+		css_fixed *length, css_unit *unit);
+
+uint8_t css_computed_border_radius_bottom_left(
+		const css_computed_style *style,
+		css_fixed *length, css_unit *unit);
+
 #ifdef __cplusplus
 }
 #endif

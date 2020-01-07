@@ -97,6 +97,24 @@ css_error css__parse_border_right_style(css_language *c,
 css_error css__parse_border_right_width(css_language *c,
 		const parserutils_vector *vector, int *ctx,
 		css_style *result);
+css_error css__parse_border_radius(css_language *c,
+		const parserutils_vector *vector, int *ctx,
+		css_style *result);
+css_error css__parse_border_radius_corner(css_language *c,
+		const parserutils_vector *vector, int *ctx,
+		css_style *result, enum css_properties_e op);
+css_error css__parse_border_radius_top_left(css_language *c,
+		const parserutils_vector *vector, int *ctx,
+		css_style *result);
+css_error css__parse_border_radius_top_right(css_language *c,
+		const parserutils_vector *vector, int *ctx,
+		css_style *result);
+css_error css__parse_border_radius_bottom_right(css_language *c,
+		const parserutils_vector *vector, int *ctx,
+		css_style *result);
+css_error css__parse_border_radius_bottom_left(css_language *c,
+		const parserutils_vector *vector, int *ctx,
+		css_style *result);
 css_error css__parse_border_spacing(css_language *c,
 		const parserutils_vector *vector, int *ctx,
 		css_style *result);
