@@ -322,6 +322,30 @@ uint8_t css_computed_border_spacing(const css_computed_style *style,
 	return get_border_spacing(style, hlength, hunit, vlength, vunit);
 }
 
+uint8_t css_computed_border_radius_top_left(const css_computed_style *style,
+		css_fixed *length, css_unit *unit)
+{
+	return get_border_radius_top_left(style, length, unit);
+}
+
+uint8_t css_computed_border_radius_top_right(const css_computed_style *style,
+		css_fixed *length, css_unit *unit)
+{
+	return get_border_radius_top_right(style, length, unit);
+}
+
+uint8_t css_computed_border_radius_bottom_right(const css_computed_style *style,
+		css_fixed *length, css_unit *unit)
+{
+	return get_border_radius_bottom_right(style, length, unit);
+}
+
+uint8_t css_computed_border_radius_bottom_left(const css_computed_style *style,
+		css_fixed *length, css_unit *unit)
+{
+	return get_border_radius_bottom_left(style, length, unit);
+}
+
 uint8_t css_computed_word_spacing(const css_computed_style *style,
 		css_fixed *length, css_unit *unit)
 {

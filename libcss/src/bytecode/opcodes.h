@@ -95,6 +95,10 @@ enum op_border_collapse {
 	BORDER_COLLAPSE_COLLAPSE	= 0x0001
 };
 
+enum op_border_radius {
+	BORDER_RADIUS_SET   = 0x0080
+};
+
 enum op_border_spacing {
 	BORDER_SPACING_SET		= 0x0080
 };

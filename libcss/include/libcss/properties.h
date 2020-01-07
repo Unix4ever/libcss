@@ -139,6 +139,11 @@ enum css_properties_e {
 	CSS_PROP_JUSTIFY_CONTENT		= 0x07a,
 	CSS_PROP_ORDER				= 0x07b,
 
+	CSS_PROP_BORDER_TOP_LEFT_RADIUS     = 0x07c,
+	CSS_PROP_BORDER_TOP_RIGHT_RADIUS    = 0x07d,
+	CSS_PROP_BORDER_BOTTOM_RIGHT_RADIUS = 0x07e,
+	CSS_PROP_BORDER_BOTTOM_LEFT_RADIUS  = 0x07f,
+
 	CSS_N_PROPERTIES
 };
 
@@ -454,6 +459,12 @@ enum css_flex_basis_e {
 	CSS_FLEX_BASIS_SET			= 0x1,
 	CSS_FLEX_BASIS_AUTO			= 0x2,
 	CSS_FLEX_BASIS_CONTENT			= 0x3
+};
+
+enum css_border_radius_e {
+	CSS_BORDER_RADIUS_INHERIT   = 0x0,
+	CSS_BORDER_RADIUS_SET       = 0x1,
+	CSS_BORDER_RADIUS_AUTO      = 0x2
 };
 
 enum css_flex_direction_e {
